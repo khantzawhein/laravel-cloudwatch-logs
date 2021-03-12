@@ -5,6 +5,7 @@ namespace Pagevamp;
 use Aws\CloudWatchLogs\CloudWatchLogsClient;
 use Maxbanton\Cwh\Handler\CloudWatch;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\NullHandler;
 use Pagevamp\Exceptions\IncompleteCloudWatchConfig;
 
 class Logger
@@ -19,23 +20,28 @@ class Logger
 
     public function __invoke(array $config)
     {
-        if($this->app === null) {
+        if ($this->app === null) {
             $this->app = \app();
         }
-
         $loggingConfig = $config;
         $cwClient = new CloudWatchLogsClient($this->getCredentials());
 
+        $isDisabled = $loggingConfig['disabled'];
         $streamName = $loggingConfig['stream_name'];
         $retentionDays = $loggingConfig['retention'];
         $groupName = $loggingConfig['group_name'];
         $batchSize = isset($loggingConfig['batch_size']) ? $loggingConfig['batch_size'] : 10000;
 
-        $logHandler = new CloudWatch($cwClient, $groupName, $streamName, $retentionDays, $batchSize);
         $logger = new \Monolog\Logger($loggingConfig['name']);
+        if ($isDisabled) {
+            $logHandler = new NullHandler();
+        } else {
+            $logHandler = new CloudWatch($cwClient, $groupName, $streamName, $retentionDays, $batchSize);
 
-        $formatter = $this->resolveFormatter($loggingConfig);
-        $logHandler->setFormatter($formatter);
+            $formatter = $this->resolveFormatter($loggingConfig);
+            $logHandler->setFormatter($formatter);
+        }
+
         $logger->pushHandler($logHandler);
 
         return $logger;
