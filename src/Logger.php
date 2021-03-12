@@ -24,7 +24,6 @@ class Logger
             $this->app = \app();
         }
         $loggingConfig = $config;
-        $cwClient = new CloudWatchLogsClient($this->getCredentials());
 
         $isDisabled = $loggingConfig['disabled'];
         $streamName = $loggingConfig['stream_name'];
@@ -36,6 +35,7 @@ class Logger
         if ($isDisabled) {
             $logHandler = new NullHandler();
         } else {
+            $cwClient = new CloudWatchLogsClient($this->getCredentials());
             $logHandler = new CloudWatch($cwClient, $groupName, $streamName, $retentionDays, $batchSize);
 
             $formatter = $this->resolveFormatter($loggingConfig);
