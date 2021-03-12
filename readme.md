@@ -30,6 +30,7 @@ Config for logging is defined at `config/logging.php`. Add `cloudwatch` to the `
             'version' => env('CLOUDWATCH_LOG_VERSION', 'latest'),
             'formatter' => \Monolog\Formatter\JsonFormatter::class,
             'disabled' => env('DISABLE_CLOUDWATCH_LOG', false),
+            'via' => \Pagevamp\Logger::class
         ],
 ]
 ```
