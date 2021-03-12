@@ -1,6 +1,6 @@
 {
-  "name": "pagevamp/laravel-cloudwatch-logs",
-  "description": "Laravel Adapter for AWS CloudWatch",
+  "name": "khantzawhein/laravel-cloudwatch-logs",
+  "description": "Laravel Adapter for AWS CloudWatch Which Works",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -11,7 +11,11 @@
     {
       "name": "Sujan Shrestha",
       "email": "najus.shrestha@gmail.com"
-    }
+    },
+    {
+      "name": "Khant Zaw Hein",
+      "email": "kzh702@gmail.com"
+    },
   ],
   "autoload": {
     "psr-4": {
