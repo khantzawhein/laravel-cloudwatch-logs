@@ -15,7 +15,7 @@
     {
       "name": "Khant Zaw Hein",
       "email": "kzh702@gmail.com"
-    },
+    }
   ],
   "autoload": {
     "psr-4": {
